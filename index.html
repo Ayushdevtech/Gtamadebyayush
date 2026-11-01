@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover">
+<meta name="theme-color" content="#0b0d14">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Open City</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<canvas id="game"></canvas>
+<div id="vignette"></div>
+
+<header id="topbar">
+  <div class="tb-left"><span class="logo-dot"></span><span class="logo-text">OPEN CITY</span></div>
+  <div class="tb-credit">Made by <strong>Ayushdev</strong></div>
+  <div class="tb-right">
+    <button id="btn-sound" class="icon-btn" aria-label="Sound"><svg viewBox="0 0 24 24"><path d="M4 9v6h4l5 4V5L8 9H4z"/><path class="wave" d="M16 8.5a5 5 0 010 7M18.5 6a8.5 8.5 0 010 12"/></svg></button>
+    <button id="btn-help" class="icon-btn" aria-label="Help"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M9.5 9.5a2.6 2.6 0 115 .8c0 1.6-2.5 1.8-2.5 3.7M12 17.2v.1"/></svg></button>
+    <button id="btn-pause" class="icon-btn" aria-label="Pause"><svg viewBox="0 0 24 24"><path d="M8 5v14M16 5v14"/></svg></button>
+  </div>
+</header>
+
+<div id="hud" class="hidden">
+  <div id="hud-left">
+    <div class="bar hp"><div id="hp-fill" class="fill"></div><span id="hp-num">100</span></div>
+    <div class="bar ar"><div id="ar-fill" class="fill"></div></div>
+    <div id="money">$500</div>
+    <div id="weapon"><span id="w-name">Fists</span><span id="w-ammo">Melee</span></div>
+  </div>
+  <div id="hud-mission">
+    <div id="m-text">Red Gang 0 / 12</div>
+    <div class="mbar"><div id="m-fill"></div></div>
+  </div>
+  <div id="hud-right">
+    <div id="stars">
+      <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3 6.8 7.4.7-5.6 4.9 1.7 7.3L12 17.8 5.5 21.7l1.7-7.3L1.6 9.5 9 8.8z"/></svg>
+      <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3 6.8 7.4.7-5.6 4.9 1.7 7.3L12 17.8 5.5 21.7l1.7-7.3L1.6 9.5 9 8.8z"/></svg>
+      <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3 6.8 7.4.7-5.6 4.9 1.7 7.3L12 17.8 5.5 21.7l1.7-7.3L1.6 9.5 9 8.8z"/></svg>
+      <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3 6.8 7.4.7-5.6 4.9 1.7 7.3L12 17.8 5.5 21.7l1.7-7.3L1.6 9.5 9 8.8z"/></svg>
+      <svg class="star" viewBox="0 0 24 24"><path d="M12 2l3 6.8 7.4.7-5.6 4.9 1.7 7.3L12 17.8 5.5 21.7l1.7-7.3L1.6 9.5 9 8.8z"/></svg>
+    </div>
+    <div id="mm-wrap"><canvas id="minimap"></canvas><div id="clock">10:00</div></div>
+  </div>
+  <div id="speedo"></div>
+  <div id="prompt"></div>
+  <div id="toasts"></div>
+</div>
+
+<div id="touch" class="hidden">
+  <div id="joy-zone"></div>
+  <div id="aim-zone"></div>
+  <div id="joy-base" class="hidden"><div id="joy-knob"></div></div>
+  <button id="t-fire" class="tbtn fire">FIRE</button>
+  <button id="t-act" class="tbtn act">ENTER</button>
+  <button id="t-wpn" class="tbtn wpn">GUN</button>
+  <button id="t-run" class="tbtn run">RUN</button>
+  <button id="t-horn" class="tbtn horn">HORN</button>
+</div>
+
+<div id="intro" class="overlay">
+  <div class="panel">
+    <button id="intro-close" class="close-btn" aria-label="Close and play"><svg viewBox="0 0 24 24"><path d="M5 5l14 14M19 5L5 19"/></svg></button>
+    <div class="panel-head">
+      <div class="credit-top">Made by Ayushdev</div>
+      <h1>OPEN CITY</h1>
+      <p class="tagline">A fast open-world action game. Own the streets, the sea front and the skyline.</p>
+    </div>
+    <div class="panel-body">
+      <section>
+        <h2>About the game</h2>
+        <p>Open City is a sunlit coastal metropolis with glass towers, quiet suburbs, parks, plazas and a palm-lined beach. Walk, run, ride a bicycle, jump on a motorbike or steal a car, bus or taxi. Day turns to night and the whole city lights up.</p>
+      </section>
+      <section>
+        <h2>Your mission</h2>
+        <p>The <b class="red">Red Gang</b> has taken over the streets. Every gang member wears red. Take them down for cash and finish each mission for a big bonus. Stay away from civilians and police: hurting them raises your wanted level.</p>
+      </section>
+      <section class="two">
+        <div>
+          <h2>Controls - PC</h2>
+          <ul>
+            <li><b>W A S D</b> move / drive</li>
+            <li><b>Mouse</b> aim, <b>Click</b> or <b>Space</b> attack / brake</li>
+            <li><b>Shift</b> run, <b>E</b> enter / exit vehicle</li>
+            <li><b>Q</b> or <b>1-5</b> change weapon, <b>H</b> horn</li>
+            <li><b>Esc</b> pause, <b>M</b> sound</li>
+          </ul>
+        </div>
+        <div>
+          <h2>Controls - Phone (landscape)</h2>
+          <ul>
+            <li><b>Left joystick</b> move / steer / throttle</li>
+            <li><b>Drag on right side</b> to aim</li>
+            <li><b>FIRE</b> attack (hold and drag to aim), <b>BRAKE</b> in car</li>
+            <li><b>ENTER</b> get in or out, <b>GUN</b> switch weapon, <b>RUN</b> sprint</li>
+          </ul>
+        </div>
+      </section>
+      <section>
+        <h2>Features</h2>
+        <ul class="feat">
+          <li>Animated people with arms, legs, hair styles and faces</li>
+          <li>Cars, sports cars, taxis, SUVs, vans, buses, motorbikes and bicycles</li>
+          <li>Fists, bat, pistol, SMG and shotgun</li>
+          <li>Wanted level with police response</li>
+          <li>Living traffic, pedestrians, day and night cycle</li>
+          <li>Pickups, minimap, explosions and burning wrecks</li>
+        </ul>
+      </section>
+    </div>
+    <div class="panel-foot"><button id="start-btn">START GAME</button></div>
+  </div>
+</div>
+
+<div id="gameover" class="overlay hidden">
+  <div class="over-box">
+    <h2>YOU ARE DOWN</h2>
+    <p id="go-stats"></p>
+    <button id="respawn-btn">RESPAWN</button>
+  </div>
+</div>
+
+<div id="rotate" class="overlay"><div class="rot-box"><svg viewBox="0 0 24 24"><rect x="6" y="2" width="12" height="20" rx="2"/><path d="M12 18v.1"/></svg><p>Please rotate your phone to landscape</p></div></div>
+
+<script src="js/utils.js"></script>
+<script src="js/audio.js"></script>
+<script src="js/world.js"></script>
+<script src="js/persons.js"></script>
+<script src="js/vehicles.js"></script>
+<script src="js/combat.js"></script>
+<script src="js/spawner.js"></script>
+<script src="js/render.js"></script>
+<script src="js/ui.js"></script>
+<script src="js/main.js"></script>
+</body>
+</html>
